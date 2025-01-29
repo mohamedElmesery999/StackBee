@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from "@heroui/react";
 import { Button } from "@heroui/react";
 import { useFormik } from 'formik';
@@ -7,14 +7,16 @@ import axios from 'axios';
 
 export default function Register() {
 
+  const[isLoading , setIsLoading] = useState(false)
   const initialValues = {
-    name: "", email: "", password: "", ConfirmPassword: "", Phone: ""
+    name: "", email: "", password: "", rePassword: "", phone: ""
   };
 
-  const onsubmit = async () => {
-    console.log(values);
+  const onSubmit = async () => {
+    setIsLoading(true)
     const {data} = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signup", values);
     console.log(data);
+    setIsLoading(true)
     
   };
 
@@ -32,13 +34,13 @@ export default function Register() {
       .oneOf([Yup.ref("password"), null], "Passwords must match")
       .required("Confirm Password is required"),
     phone: Yup.string()
-      .matches(/^\d{11}$/, "Phone number must be 11 digits")
-      .required("Phone number is required"),
+      .matches(/^\d{11}$/, "phone number must be 11 digits")
+      .required("phone number is required"),
   });
 
   const { handleSubmit, values, handleChange, errors, handleBlur, touched } = useFormik({
     initialValues,
-    onsubmit,
+    onSubmit,
     validationSchema
   });
 
@@ -63,17 +65,17 @@ export default function Register() {
             </div>
 
             <div>
-              <Input onBlur={handleBlur} onChange={handleChange} value={values.rePassword} variant="bordered" style={{ border: 'none', boxShadow: 'none' }}  name="confirmPassword" label="Confirm Password"type="password"/>
+              <Input onBlur={handleBlur} onChange={handleChange} value={values.rePassword} variant="bordered" style={{ border: 'none', boxShadow: 'none' }}  name="rePassword" label="Confirm Password"type="password"/>
               {touched.rePassword && errors.rePassword && (<p className="text-red-500 text-sm mt-1">{errors.rePassword}</p>)}
             </div>
           </div>
 
           <div>
-            <Input onBlur={handleBlur} onChange={handleChange} value={values.Phone} variant="bordered" style={{ border: 'none', boxShadow: 'none' }} name="Phone" label="Phone" type="tel"/>
-            {touched.Phone && errors.Phone && (<p className="text-red-500 text-sm mt-1">{errors.Phone}</p>)}
+            <Input onBlur={handleBlur} onChange={handleChange} value={values.phone} variant="bordered" style={{ border: 'none', boxShadow: 'none' }} name="phone" label="Phone" type="tel"/>
+            {touched.phone && errors.phone && (<p className="text-red-500 text-sm mt-1">{errors.phone}</p>)}
           </div>
 
-          <Button type="submit" color="success" className="w-2/5 mx-auto">Register</Button>
+          <Button isLoading={isLoading}  type="submit" color="success" className="w-2/5 mx-auto">Register</Button>
           </div>
       </form>
     </div>
