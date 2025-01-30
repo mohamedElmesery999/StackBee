@@ -1,60 +1,43 @@
 import React from 'react'
-import {
-  Navbar as NavbarHeroUi,
-  NavbarBrand,
-  NavbarContent,
-  NavbarItem,
-  NavbarMenuToggle,
-  NavbarMenu,
-  NavbarMenuItem,
-  Link,
-  Button,
-} from "@heroui/react";
+import { Navbar as NavbarHeroUi, NavbarBrand, NavbarContent,  NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button,} from "@heroui/react";
+import { Link } from 'react-router-dom';
+
 export default function Navbar() {
+
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const menuItems = [
-    "Profile",
-    "Deployments",
-    "My Settings",
-    "Team Settings",
-    "Help & Feedback",
-    "Log Out",
-  ];
+  const menuItems = [ "Home", "Categories", "Brands", "Cart"];
+
   return (
     <NavbarHeroUi onMenuOpenChange={setIsMenuOpen}>
+
       <NavbarContent>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
         />
+       <Link to="/">
         <NavbarBrand>
           <p className="font-bold text-inherit">StackBee</p>
         </NavbarBrand>
+       </Link>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Features
-          </Link>
-        </NavbarItem>
-        <NavbarItem isActive>
-          <Link aria-current="page" href="#">
-            Customers
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
-          <Link color="foreground" href="#">
-            Integrations
-          </Link>
-        </NavbarItem>
+      {menuItems.map((item, index) => (
+        <NavbarItem key={index}>
+            <Link color='foreground' to={item == menuItems[0] ? "/" : "/" + item}>
+               {item}
+             </Link>
+            </NavbarItem>
+        ))}
       </NavbarContent>
+
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">
-          <Link href="#">Login</Link>
+          <Link to="/login">Login</Link>
         </NavbarItem>
         <NavbarItem>
-          <Button as={Link} color="primary" href="#" variant="flat">
+          <Button as={Link} color="primary" to="/register" variant="flat">
             Sign Up
           </Button>
         </NavbarItem>
@@ -76,6 +59,7 @@ export default function Navbar() {
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
+
     </NavbarHeroUi>
   );
 }
