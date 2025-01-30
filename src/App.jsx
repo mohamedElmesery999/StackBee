@@ -3,6 +3,7 @@ import Layout from "./Layouts/Layout/Layout"
 import Home from "./Pages/Home/Home"
 import Login from "./Pages/Login/Login"
 import Register from "./Pages/Register/Register"
+import { HeroUIProvider } from "@heroui/react"
 
 const router = createBrowserRouter ([
   {path : '' , element:<Layout/> , children :[
@@ -16,8 +17,9 @@ const router = createBrowserRouter ([
 export default function App() {
   return (
   <>
-  <RouterProvider router={router}></RouterProvider>
-  
+      <HeroUIProvider>
+        <RouterProvider router={router}></RouterProvider>
+      </HeroUIProvider>
   </>
   )
 }
