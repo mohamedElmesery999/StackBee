@@ -62,7 +62,7 @@ export default function Register() {
             {touched.email && errors.email && (<p className="text-red-500 text-sm mt-1">{errors.email}</p>)}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 gap-4">
             <div>
               <Input onBlur={handleBlur} onChange={handleChange} value={values.password} variant="bordered" style={{ border: 'none', boxShadow: 'none' }}  name="password"label="Password"type="password"/>
               {touched.password && errors.password && (<p className="text-red-500 text-sm mt-1">{errors.password}</p>)}

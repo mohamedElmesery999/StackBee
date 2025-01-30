@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { Input } from "@heroui/react";
-import { Button } from "@heroui/react";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -45,19 +43,19 @@ export default function Login() {
 <form className="max-w-sm mx-auto mt-40" onSubmit={handleSubmit}>
   <div className="mb-5">
     <label for="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-    <input onBlur={handleBlur} onChange={handleChange} value={values.email} type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@mo123.com" required />
+    <input onBlur={handleBlur} onChange={handleChange} value={values.email} type="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@mo123.com"  />
     {touched.email && errors.email && (<p className="text-red-500 text-sm mt-1">{errors.email}</p>)}
 
   </div>
   <div className="mb-5">
     <label for="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-    <input onBlur={handleBlur} onChange={handleChange} value={values.password} type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
+    <input onBlur={handleBlur} onChange={handleChange} value={values.password} type="password" id="password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"  />
     {touched.password && errors.password && (<p className="text-red-500 text-sm mt-1">{errors.password}</p>)}
 
   </div>
   <div className="flex items-start mb-5">
     <div className="flex items-center h-5">
-      <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
+      <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"  />
     </div>
     <label for="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
   </div>
