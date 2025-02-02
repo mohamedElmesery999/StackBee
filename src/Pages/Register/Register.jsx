@@ -11,17 +11,27 @@ export default function Register() {
   const navigate = useNavigate();
 
   const[isLoading , setIsLoading] = useState(false)
+  const[errMsg , setErrMsg] = useState("")
+
   const initialValues = {
     name: "", email: "", password: "", rePassword: "", phone: "01015986951"
   };
 
-  const onSubmit = async () => {
+  const onSubmit =  () => {
+    setErrMsg("")
     setIsLoading(true)
-    const {data} = await axios.post("https://ecommerce.routemisr.com/api/v1/auth/signup", values);
-    console.log(data);
-    setIsLoading(false )
-    navigate("/Login")
-    
+    axios.post("https://ecommerce.routemisr.com/api/v1/auth/signup", values)
+    .then((res)=>{
+      console.log(res)
+      navigate("/Login")
+    })
+    .catch((err)=>{
+      console.log(err.response.data.message);
+      setErrMsg(err.response.data.message)
+    })
+    .finally(()=>{
+      setIsLoading(false )
+    })
   };
 
   const validationSchema = Yup.object({
@@ -80,6 +90,7 @@ export default function Register() {
           </div>
 
           <Button isLoading={isLoading}  type="submit"  className="w-2/5 mx-auto text-white  bg-green-700 hover:bg-green-500 ">Register</Button>
+          {errMsg && <p className="text-red-500 text-sm ">{errMsg}</p>}
           </div>
       </form>
     </div>
