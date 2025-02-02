@@ -22,7 +22,7 @@ export default function Navbar() {
        </Link>
       </NavbarContent>
 
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+    {localStorage.getItem("token") && <NavbarContent className="hidden sm:flex gap-4" justify="center">
       {menuItems.map((item, index) => (
         <NavbarItem key={index}>
             <Link color='foreground' to={item == menuItems[0] ? "/" : "/" + item}>
@@ -30,7 +30,7 @@ export default function Navbar() {
              </Link>
             </NavbarItem>
         ))}
-      </NavbarContent>
+      </NavbarContent> }
 
       <NavbarContent justify="end">
         <NavbarItem className="hidden lg:flex">

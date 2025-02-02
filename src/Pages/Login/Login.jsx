@@ -20,7 +20,10 @@ export default function Login() {
     axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values)
     .then((res) =>{
       console.log(res);
-      navigate("/")
+      if(res.data.message == "success"){
+        localStorage.setItem("taken" , res.data.token)
+        navigate("/")
+      }
     })
     .catch((err) =>{
       console.log(err.response.data.message);
