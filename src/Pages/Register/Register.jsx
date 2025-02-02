@@ -14,7 +14,7 @@ export default function Register() {
   const[errMsg , setErrMsg] = useState("")
 
   const initialValues = {
-    name: "", email: "", password: "", rePassword: "", phone: "01015986951"
+    name: "", email: "mohamedelmesery18@gmail.com", password: "Mo@12345", rePassword: "Mo@12345", phone: "01015986951"
   };
 
   const onSubmit =  () => {

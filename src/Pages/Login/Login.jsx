@@ -9,14 +9,14 @@ export default function Login() {
   const navigate = useNavigate();
 
   const[errMsg , setErrMessg] = useState()
-  const[isLoading , setIsLoading] = useState(false)
+  const[isloading , setIsloading] = useState(false)
   const initialValues = {
-   email: "", password: ""
+   email: "mohamedelmesery18@gmail.com", password: "Mo@12345"
   };
 
   const onSubmit = () => {
     setErrMessg("")
-    setIsLoading(true)
+    setIsloading(true)
     axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values)
     .then((res) =>{
       console.log(res);
@@ -31,7 +31,7 @@ export default function Login() {
     })
     .finally(() =>{
       
-      setIsLoading(false )
+      setIsloading(false )
     })
     
   };
@@ -73,7 +73,7 @@ export default function Login() {
     </div>
     <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
   </div>
-  <button isLoading={isLoading} type="submit" className="text-white bg-green-700 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
+  <button isloading={isloading} type="submit" className="text-white bg-green-700 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
   <p className="text-red-500 text-sm mt-1">{errMsg}</p>
 </form>
 
