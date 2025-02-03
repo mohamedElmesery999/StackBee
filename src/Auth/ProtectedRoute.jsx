@@ -1,5 +1,4 @@
 import React from 'react'
-import Login from '../../Pages/Login/Login';
 import { Navigate } from 'react-router-dom';
 
 export default function ProtectedRoute({ children }){
@@ -9,7 +8,7 @@ export default function ProtectedRoute({ children }){
 
   return (
     <div>
-      {localStorage.getItem("token") != null ? children : <Navigate to={"/login"}/>}
+      {localStorage.getItem("token") != null ? children : <Navigate to={"/"}/>}
     </div>
   )
 }

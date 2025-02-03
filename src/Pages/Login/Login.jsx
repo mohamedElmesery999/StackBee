@@ -1,37 +1,41 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { Button } from "@heroui/react";
 import { useNavigate } from 'react-router-dom';
+import { authContext } from '../../Contexts/AuthContext';
 
 export default function Login() {
 
   const navigate = useNavigate();
 
   const[errMsg , setErrMessg] = useState()
-  const[isloading , setIsloading] = useState(false)
+  const[isLoading , setIsLoading] = useState(false)
   const initialValues = {
    email: "mohamedelmesery18@gmail.com", password: "Mo@12345"
   };
 
+   const {setIsLoggedin} = useContext(authContext)
+
   const onSubmit = () => {
     setErrMessg("")
-    setIsloading(true)
+    setIsLoading(true)
     axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values)
     .then((res) =>{
       console.log(res);
       if(res.data.message == "success"){
-        localStorage.setItem("taken" , res.data.token)
+        localStorage.setItem("token" , res.data.token) 
+        setIsLoggedin(true)
         navigate("/")
       }
     })
     .catch((err) =>{
       console.log(err.response.data.message);
-      setErrMessg(err.response.data.message)
+      setErrMessg(err.response.data.message);
     })
     .finally(() =>{
-      
-      setIsloading(false )
+      setIsLoading(false )
     })
     
   };
@@ -73,7 +77,7 @@ export default function Login() {
     </div>
     <label className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
   </div>
-  <button isloading={isloading} type="submit" className="text-white bg-green-700 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</button>
+  <Button isLoading={isLoading}  type="submit" className="text-white bg-green-700 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Login</Button>
   <p className="text-red-500 text-sm mt-1">{errMsg}</p>
 </form>
 
