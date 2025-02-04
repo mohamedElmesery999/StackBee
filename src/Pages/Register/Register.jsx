@@ -14,7 +14,7 @@ export default function Register() {
   const[errMsg , setErrMsg] = useState("")
 
   const initialValues = {
-    name: "", email: "", password: "", rePassword: "", phone: "01015986951"
+    name: "", email: "mohamedelmesery18@gmail.com", password: "Mo@12345", rePassword: "Mo@12345", phone: "01015986951"
   };
 
   const onSubmit =  () => {
@@ -59,7 +59,7 @@ export default function Register() {
   });
 
   return (
-    <div className="my-32">
+    <div className="my-16">
       <form onSubmit={handleSubmit}>
         <div className="w-2/5 mx-auto grid grid-cols-1 gap-6">
           <div>
