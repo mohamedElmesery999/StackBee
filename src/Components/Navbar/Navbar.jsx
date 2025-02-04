@@ -16,7 +16,7 @@ export default function Navbar() {
     navigate("/login")
   }
   return (
-  <NavbarHeroUi onMenuOpenChange={setIsMenuOpen}>
+  <NavbarHeroUi shouldHideOnScroll onMenuOpenChange={setIsMenuOpen}>
 
       <NavbarContent>
         <NavbarMenuToggle

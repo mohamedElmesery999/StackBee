@@ -59,7 +59,7 @@ export default function Register() {
   });
 
   return (
-    <div className="my-32">
+    <div className="my-16">
       <form onSubmit={handleSubmit}>
         <div className="w-2/5 mx-auto grid grid-cols-1 gap-6">
           <div>
