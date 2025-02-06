@@ -5,40 +5,46 @@ export const authContext = createContext();
 
 export default function AuthContextProvider({ children }) {
     const [isLoggedin, setIsLoggedin] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // Loading only on first render
 
     useEffect(() => {
-        VerifyUserToken();
+        VerifyUserToken();              //M. Run immediately when open project
 
-        // Polling to check if the token changes every 2 seconds
         const interval = setInterval(() => {
-            VerifyUserToken();
+            VerifyUserToken(false);    // Pass `false` to avoid resetting `isLoading`
         }, 2000);
 
-        return () => clearInterval(interval); // Cleanup on unmount
+        return () => clearInterval(interval);
     }, []);
 
-    function VerifyUserToken() {
-        const token = localStorage.getItem("token");
+    function VerifyUserToken(initialCheck = true) {
+        if (initialCheck) setIsLoading(true);
+
+             const token = localStorage.getItem("token");
+
         if (!token) {
             setIsLoggedin(false);
+            setIsLoading(false);
             return;
         }
 
         axios.get("https://ecommerce.routemisr.com/api/v1/auth/verifyToken", {
             headers: { token }
         })
-        .then((res) => {
-            console.log(res);
+        .then(() => {
             setIsLoggedin(true);
         })
-        .catch((err) => {
+        .catch(() => {
             localStorage.removeItem("token");
             setIsLoggedin(false);
+        })
+        .finally(() => {
+            setIsLoading(false); 
         });
     }
 
     return (
-        <authContext.Provider value={{ isLoggedin, setIsLoggedin }}>
+        <authContext.Provider value={{ isLoggedin, setIsLoggedin, isLoading }}>
             {children}
         </authContext.Provider>
     );

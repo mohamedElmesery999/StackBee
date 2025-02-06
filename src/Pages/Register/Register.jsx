@@ -14,7 +14,7 @@ export default function Register() {
   const[errMsg , setErrMsg] = useState("")
 
   const initialValues = {
-    name: "", email: "mohamedelmesery18@gmail.com", password: "Mo@12345", rePassword: "Mo@12345", phone: "01015986951"
+    name: "", email: "", password: "", rePassword: "", phone: ""
   };
 
   const onSubmit =  () => {
@@ -60,39 +60,52 @@ export default function Register() {
 
   return (
     <div className="my-16">
-      <form onSubmit={handleSubmit}>
-        <div className="w-2/5 mx-auto grid grid-cols-1 gap-6">
-          <div>
-            <Input onBlur={handleBlur} onChange={handleChange} value={values.name} variant="bordered" style={{ border: 'none', boxShadow: 'none' }}  name="name" label="Name"type="text"/>
-            {touched.name && errors.name && (<p className="text-red-500 text-sm mt-1">{errors.name}</p>)}
-          </div>
+    
 
-          <div>
-            <Input onBlur={handleBlur} onChange={handleChange} value={values.email} variant="bordered" style={{ border: 'none', boxShadow: 'none' }}  name="email" label="Email"type="email"/>
-            {touched.email && errors.email && (<p className="text-red-500 text-sm mt-1">{errors.email}</p>)}
-          </div>
 
-          <div className="grid grid-cols-1 gap-4">
-            <div>
-              <Input onBlur={handleBlur} onChange={handleChange} value={values.password} variant="bordered" style={{ border: 'none', boxShadow: 'none' }}  name="password"label="Password"type="password"/>
-              {touched.password && errors.password && (<p className="text-red-500 text-sm mt-1">{errors.password}</p>)}
-            </div>
+<form class="max-w-3xl  mx-auto" onSubmit={handleSubmit}>
+<div class="relative z-0 w-full mb-5 group">
+        <input onBlur={handleBlur} onChange={handleChange} value={values.name} type="text" name="name" id="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+        <label for="name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Name</label>
+        {touched.name && errors.name && (<p className="text-red-500 text-sm mt-1">{errors.name}</p>)}
 
-            <div>
-              <Input onBlur={handleBlur} onChange={handleChange} value={values.rePassword} variant="bordered" style={{ border: 'none', boxShadow: 'none' }}  name="rePassword" label="Confirm Password"type="password"/>
-              {touched.rePassword && errors.rePassword && (<p className="text-red-500 text-sm mt-1">{errors.rePassword}</p>)}
-            </div>
-          </div>
+    </div>
+  <div class="relative z-0 w-full mb-5 group">
+      <input onBlur={handleBlur} onChange={handleChange} value={values.email} type="email" name="email" id="email" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+      <label for="email" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Email </label>
+      {touched.email && errors.email && (<p className="text-red-500 text-sm mt-1">{errors.email}</p>)}
 
-          <div>
-            <Input onBlur={handleBlur} onChange={handleChange} value={values.phone} variant="bordered" style={{ border: 'none', boxShadow: 'none' }} name="phone" label="Phone" type="tel"/>
-            {touched.phone && errors.phone && (<p className="text-red-500 text-sm mt-1">{errors.phone}</p>)}
-          </div>
+  </div>
+ 
+  <div class="grid md:grid-cols-2 md:gap-6">
+    <div class="relative z-0 w-full mb-5 group">
+      <input  onBlur={handleBlur} onChange={handleChange} value={values.password}  type="password" name="password" id="password" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+      <label for="password" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Password</label>
+      {touched.password && errors.password && (<p className="text-red-500 text-sm mt-1">{errors.password}</p>)}
 
-          <Button isLoading={isLoading}  type="submit"  className="w-2/5 mx-auto text-white  bg-green-700 hover:bg-green-500 ">Register</Button>
-          {errMsg && <p className="text-red-500 text-sm ">{errMsg}</p>}
-          </div>
-      </form>
+  </div>
+  <div class="relative z-0 w-full mb-5 group">
+      <input  onBlur={handleBlur} onChange={handleChange} value={values.rePassword}  type="password" name="rePassword" id="rePassword" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+      <label for="rePassword" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Confirm password</label>
+      {touched.rePassword && errors.rePassword && (<p className="text-red-500 text-sm mt-1">{errors.rePassword}</p>)}
+
+  </div>
+  </div>
+
+
+    <div class="relative z-0 w-full mb-5 group">
+        <input  onBlur={handleBlur} onChange={handleChange} value={values.phone}  type="tel"  name="phone" id="phone" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" />
+        <label for="phone" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:start-0 rtl:peer-focus:translate-x-1/4 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Phone number</label>
+        {touched.phone && errors.phone && (<p className="text-red-500 text-sm mt-1">{errors.phone}</p>)}
+
+    </div>
+  
+ 
+    <Button isLoading={isLoading}  type="submit"  className="w-2/5 mx-auto text-white  bg-green-700 hover:bg-green-500 ">Register</Button>
+    {errMsg && <p className="text-red-500 text-sm ">{errMsg}</p>}
+
+    </form>
+
     </div>
   );
 }
