@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
-import { Navbar as NavbarHeroUi, NavbarBrand, NavbarContent,  NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button,} from "@heroui/react";
+import { Navbar as NavbarHeroUi, NavbarBrand, NavbarContent,  NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button, Image,} from "@heroui/react";
 import { Link, useNavigate } from 'react-router-dom';
 import { authContext } from '../../Contexts/AuthContext';
+import Logo from '../../assets/logo.PNG'
 
 export default function Navbar() {
 
@@ -16,7 +17,7 @@ export default function Navbar() {
     navigate("/login")
   }
   return (
-  <NavbarHeroUi shouldHideOnScroll onMenuOpenChange={setIsMenuOpen}>
+  <NavbarHeroUi shouldHideOnScroll onMenuOpenChange={setIsMenuOpen} >
 
       <NavbarContent>
         <NavbarMenuToggle
@@ -25,7 +26,7 @@ export default function Navbar() {
         />
        <Link to="/">
         <NavbarBrand>
-          <p className="font-bold text-inherit">StackBee</p>
+          <Image src={Logo} className='mt-3'/>
         </NavbarBrand>
        </Link>
       </NavbarContent>
