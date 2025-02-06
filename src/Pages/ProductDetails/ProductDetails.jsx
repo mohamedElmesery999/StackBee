@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import LoadingScreen from '../../Components/LoadingScreen/LoadingScreen'
 import Slider from "react-slick";
+import RelatedProduct from '../../Components/RelatedProducts/RelatedProduct';
 
 
 
@@ -10,6 +11,7 @@ export default function ProductDetails() {
     let {id} = useParams()
     const[productData , setProductData] = useState(null)
     const [isLoading, setIsLoading] = useState(true); 
+    const[relatedProduct , setRelatedProduct] = useState([])
 
     // ====================== Arrows and slider 
     const settings = {
@@ -23,17 +25,26 @@ export default function ProductDetails() {
 
     useEffect(() => {
         getProductsDetails()
+        
     }, [])
 
     async function getProductsDetails() {
         try {
             const { data } = await axios.get("https://ecommerce.routemisr.com/api/v1/products/" + id );
             setProductData(data.data);
+            getRelatedProducts(data.data.category._id);
+            
         } catch (error) {
             console.error("Error fetching product:", error);
         } finally {
             setIsLoading(false); 
         }
+    }
+
+    async function getRelatedProducts(categoryId){
+        const {data} = await axios.get(`https://ecommerce.routemisr.com/api/v1/products?category=${categoryId}`)
+        setRelatedProduct(data.data);
+        
     }
 
        if(isLoading){
@@ -51,7 +62,7 @@ export default function ProductDetails() {
         {/* <!-- Product Image --> */}
         <div className="md:w-1/3 p-4 relative">
           <div className=" ">
-             <Slider {...settings}>
+             <Slider {...settings} className='p-5'>
                 {
                     productData?.images.map((img) => {
                      return <img src={img} alt={productData.title} className="w-full h-auto object-cover rounded-lg"/>
@@ -76,13 +87,6 @@ export default function ProductDetails() {
             <span className="text-sm text-gray-500 ml-2">{productData.ratingsQuantity} reviews</span>
           </div>
           
-          {/* <ul className="text-sm text-gray-700 mb-6">
-            <li className="flex items-center mb-1"><svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Core i5 Processor (12th Gen)</li>
-            <li className="flex items-center mb-1"><svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>8 GB DDR4 RAM</li>
-            <li className="flex items-center mb-1"><svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Windows 11 Home</li>
-            <li className="flex items-center"><svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>512 GB SSD</li>
-          </ul> */}
-          
           <div className="flex items-center justify-between mb-4">
             <div>
               <span className="text-3xl font-bold text-gray-900">{productData.price}</span>
@@ -103,6 +107,9 @@ export default function ProductDetails() {
           </div>
         </div>
       </div>
+        
+        <RelatedProduct relatedProduct={relatedProduct}/>
+       
     </div>
   )
 }

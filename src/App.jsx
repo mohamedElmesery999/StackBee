@@ -23,7 +23,7 @@ const router = createBrowserRouter ([
     {path : "categories" , element :<ProtectedRoute><Categories/></ProtectedRoute> },
     {path : "brands" , element : <ProtectedRoute><Brands/></ProtectedRoute> },
     {path : "cart" , element : <ProtectedRoute><Cart/></ProtectedRoute> },
-    {path : "product/:id" , element : <ProtectedRoute><ProductDetails/></ProtectedRoute> },
+    {path : "product/:id" , element : <ProtectedRoute><ProductDetails/></ProtectedRoute> }, 
     {path : "*" , element : <Notfound/>},
   ]}
 ])
