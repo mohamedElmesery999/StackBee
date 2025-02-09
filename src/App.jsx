@@ -12,6 +12,7 @@ import ProtectedRoute from "./Auth/ProtectedRoute"
 import AuthContextProvider from "./Contexts/AuthContext"
 import ProtectedAuthRoute from "./Auth/ProtectedAuthRoute"
 import ProductDetails from "./Pages/ProductDetails/ProductDetails"
+import { ToastContainer } from 'react-toastify';
 
 
 
@@ -32,9 +33,10 @@ const router = createBrowserRouter ([
 export default function App() {
   return (
   <>
-      <AuthContextProvider>
+      <AuthContextProvider>  
           <HeroUIProvider>
             <RouterProvider router={router}></RouterProvider>
+            <ToastContainer/>
           </HeroUIProvider>
       </AuthContextProvider>
   </>
