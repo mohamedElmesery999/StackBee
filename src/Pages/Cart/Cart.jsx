@@ -78,7 +78,7 @@ export default function Cart() {
             </div>
 
             {/* ================================== the right side =====================================*/}
-            <div className=" col-span-12 xl:col-span-4 bg-gray-50 w-full max-xl:px-6 max-w-3xl xl:max-w-lg ms-20 mx-auto lg:pl-8 py-24">
+            <div className=" col-span-12 xl:col-span-4 bg-gray-50 w-full max-xl:px-6 max-w-3xl xl:max-w-lg  mx-auto lg:pl-8 py-24">
               <div className="sticky bg-green-100 border rounded-lg top-40">
               <h2 className="font-manrope font-bold text-3xl leading-10 text-black pb-8 border-b border-gray-300 text-center mt-8">
                     Order Summary</h2>
