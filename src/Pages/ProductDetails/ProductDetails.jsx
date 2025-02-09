@@ -5,7 +5,7 @@ import LoadingScreen from '../../Components/LoadingScreen/LoadingScreen'
 import Slider from "react-slick";
 import RelatedProduct from '../../Components/RelatedProducts/RelatedProduct';
 import { Heart, ShoppingCart, Star } from 'lucide-react';
-
+import { addProductToCart } from '../../Components/Services/cartServices';
 
 
 export default function ProductDetails({index}) {
@@ -125,7 +125,7 @@ export default function ProductDetails({index}) {
                 <button className="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors">
                   Buy Now
                 </button>
-                <button className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
+                <button onClick={() => addProductToCart(productData?._id)} className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-3 px-6 rounded focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors">
                   Add to Cart
                 </button>
               </div>

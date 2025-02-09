@@ -9,7 +9,7 @@ export default function ProtectedAuthRoute({children}) {
 
   return (
     <div>
-        {!isLoggedin ? children : <Navigate to={"/"}/>}
+          {!isLoggedin ? children : <Navigate to={"/"}/>}
     </div>
   )
 }
