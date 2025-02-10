@@ -16,19 +16,21 @@ import { ToastContainer } from 'react-toastify';
 
 
 
-const router = createBrowserRouter ([
-  {path : '' , element: <Layout/> , children: [
-    {index : true , element :<ProtectedRoute><Home /></ProtectedRoute> },
-    {path : "login" , element : <ProtectedAuthRoute><Login/></ProtectedAuthRoute> },
-    {path : "register" , element :<ProtectedAuthRoute><Register/></ProtectedAuthRoute> },
-    {path : "categories" , element :<ProtectedRoute><Categories/></ProtectedRoute> },
-    {path : "brands" , element : <ProtectedRoute><Brands/></ProtectedRoute> },
-    {path : "cart" , element : <ProtectedRoute><Cart/></ProtectedRoute> },
-    {path : "product/:id" , element : <ProtectedRoute><ProductDetails/></ProtectedRoute> }, 
-    {path : "*" , element : <Notfound/>},
-  ]}
-])
-
+const router = createBrowserRouter([
+  {
+    path: '', element: <Layout />,
+    children: [
+      { index: true, element: <Home /> }, // M. Home is now public
+      { path: "login", element: <ProtectedAuthRoute><Login /></ProtectedAuthRoute> },
+      { path: "register", element: <ProtectedAuthRoute><Register /></ProtectedAuthRoute> },
+      { path: "categories", element: <ProtectedRoute><Categories /></ProtectedRoute> },
+      { path: "brands", element: <ProtectedRoute><Brands /></ProtectedRoute> },
+      { path: "cart", element: <ProtectedRoute><Cart /></ProtectedRoute> },
+      { path: "product/:id", element: <ProtectedRoute><ProductDetails /></ProtectedRoute> }, 
+      { path: "*", element: <Notfound /> },
+    ]
+  }
+]);
 
 export default function App() {
   return (
