@@ -1,12 +1,15 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import CartProduct from '../../Components/CartProduct/CartProduct'
+import { toast } from 'react-toastify';
+import { Bounce } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 export default function Cart() {
 
   const[cartId , setCartId] =  useState(null)
   const[cartdata , setCartData] =  useState(null)
-  const[numOfCartItems , setNumOfCartItems] =  useState(null)
+  const[numOfCartItems , setNumOfCartItems] =  useState(0)
 
   useEffect(() => {
     getLoggedUserCart()
@@ -21,9 +24,92 @@ export default function Cart() {
       } )
       setCartId(data.cartId);
       setCartData(data.data);
-      setNumOfCartItems(data.numOfCartItems);
-      
+      setNumOfCartItems(data.numOfCartItems);    
   }
+
+  async function removeCartProduct(productId) {
+    const {data} = await axios.delete(`https://ecommerce.routemisr.com/api/v1/cart/${productId}` , {
+      headers: {
+        token : localStorage.getItem("token")
+      }
+    })
+    setCartData(data.data);
+    setNumOfCartItems(data.numOfCartItems);     
+    
+    toast.error('Cart Deleted !!', {
+      position: "top-center",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnFocusLoss: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      transition: Bounce
+      });
+  }
+
+  async function clearAllCart() {
+    const {data} = await axios.delete(`https://ecommerce.routemisr.com/api/v1/cart/`, {
+      headers: {
+        token : localStorage.getItem("token")
+      }
+    })
+    setCartData(null);
+    setNumOfCartItems(0);     
+    
+    toast.error('The cart has been removed !!', {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnFocusLoss: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce
+      });
+  }
+
+   function updateProductCounter(productId , count) {
+    axios.put(`https://ecommerce.routemisr.com/api/v1/cart/${productId}` ,{
+        count
+    }, {
+        headers :{
+            token : localStorage.getItem("token")
+        }
+    }).then(({data}) => {
+    setCartData(data.data);
+    setNumOfCartItems(data.numOfCartItems); 
+    })
+}
+
+  if (numOfCartItems === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] text-center">
+        <img 
+          src="https://cdn-icons-png.flaticon.com/512/2038/2038854.png" 
+          alt="Empty Cart"
+          className="w-32 h-32 opacity-70"
+        />
+        <h1 className="text-2xl font-semibold text-gray-700 mt-4">
+          Your cart is empty
+        </h1>
+        <p className="text-gray-500 mt-2">
+          Looks like you haven’t added anything to your cart yet.
+        </p>
+        <Link
+          to="/"
+          className="mt-5 px-6 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-lg transition-all"
+        >
+          Start Shopping
+        </Link>
+      </div>
+    );
+  }
+  
 
   return (
     <section
@@ -56,14 +142,18 @@ export default function Cart() {
                         {/* ========================= start cart  */}
 
                           {
-                            cartdata?.products.map((product) =>{
-                            return <CartProduct product={product}/>
+                            cartdata?.products.map((product , index) =>{
+                            return <CartProduct key={index} product={product} removeCartProduct={removeCartProduct} updateProductCounter={updateProductCounter} />
                             })
                           }
 
                         {/* ========================= end cart  */}
 
-                <div className="flex items-center justify-end mt-8">
+                <div className="flex items-center justify-between mt-8">
+                    <button onClick={() => clearAllCart()}
+                        className="flex items-center px-5 py-3 rounded-full gap-2 border-none outline-0 group font-semibold text-lg leading-8 text-red-500 shadow-sm shadow-transparent transition-all duration-500 hover:text-red-700">
+                        Clear Cart  
+                    </button>
                     <button
                         className="flex items-center px-5 py-3 rounded-full gap-2 border-none outline-0 group font-semibold text-lg leading-8 text-indigo-600 shadow-sm shadow-transparent transition-all duration-500 hover:text-indigo-700">
                         Add Coupon Code
@@ -71,7 +161,7 @@ export default function Cart() {
                             fill="none">
                             <path
                                 d="M12.7757 5.5L18.3319 11.0562M18.3319 11.0562L12.7757 16.6125M18.3319 11.0562L1.83203 11.0562"
-                                stroke="#4F46E5" stroke-width="1.6" stroke-linecap="round" />
+                                stroke="#4F46E5" strokeWidth="1.6" strokeLinecap="round" />
                         </svg>
                     </button>
                 </div>
