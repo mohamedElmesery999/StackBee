@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext } from 'react'; 
 import { Navbar as NavbarHeroUi, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button, Image } from "@heroui/react";
 import { Link, useNavigate } from 'react-router-dom';
 import { authContext } from '../../Contexts/AuthContext';
@@ -14,16 +14,21 @@ export default function Navbar() {
     localStorage.removeItem("token");
     setIsLoggedin(false);
     navigate("/login");
+    setIsMenuOpen(false); // Close menu after logout
   }
 
   return (
-    <NavbarHeroUi shouldHideOnScroll onMenuOpenChange={setIsMenuOpen}>
-      
-      {/* M. Logo on the Left */}
+    <NavbarHeroUi 
+      shouldHideOnScroll 
+      onMenuOpenChange={setIsMenuOpen}
+      isMenuOpen={isMenuOpen} // Ensure menu state is controlled
+    >
       <NavbarContent>
+        {/* Toggle button to open/close menu */}
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
+          onClick={() => setIsMenuOpen(!isMenuOpen)}
         />
         <Link to="/">
           <NavbarBrand>
@@ -32,30 +37,28 @@ export default function Navbar() {
         </Link>
       </NavbarContent>
 
-      {/* M. Menu Items in the Center */}
+      {/* Desktop Menu */}
       {isLoggedin && (
         <NavbarContent className="hidden sm:flex gap-4" justify="center">
           {menuItems.map((item, index) => (
             <NavbarItem key={index}>
-              <Link to={item === "Home" ? "/" : "/" + item}>
-                {item}
-              </Link>
+              <Link to={item === "Home" ? "/" : "/" + item}>{item}</Link>
             </NavbarItem>
           ))}
         </NavbarContent>
       )}
 
-      {/* M. Logout / Login Buttons on the Right */}
+      {/* Right Side (Login/Logout) */}
       <NavbarContent justify="end">
         {isLoggedin ? (
           <NavbarItem className="hidden sm:flex">
-            <Button onClick={logout} color="danger" variant="bordered">
+            <Button onPress={logout} color="danger" variant="bordered">
               LogOut
             </Button>
           </NavbarItem>
         ) : (
           <>
-            <NavbarItem className="hidden lg:flex">
+            <NavbarItem className="border-2 rounded-xl px-4 py-2 hover:bg-green-400 hover:text-white transition-all">
               <Link to="/login">Login</Link>
             </NavbarItem>
             <NavbarItem>
@@ -67,17 +70,26 @@ export default function Navbar() {
         )}
       </NavbarContent>
 
-      {/* M. Mobile Menu (Dropdown) */}
+      {/* Mobile Menu */}
       {isLoggedin && (
         <NavbarMenu>
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
-              <Link to={item === "Home" ? "/" : "/" + item}>{item}</Link>
+              <Link 
+                to={item === "Home" ? "/" : "/" + item} 
+                onClick={() => setIsMenuOpen(false)} // Close menu on item click
+              >
+                {item}
+              </Link>
             </NavbarMenuItem>
           ))}
-          {/* M. Logout Button in Mobile Menu */}
           <NavbarMenuItem>
-            <Button onClick={logout} color="danger" variant="bordered" className="w-full">
+            <Button 
+              onPress={logout} 
+              color="danger" 
+              variant="bordered" 
+              className="w-full"
+            >
               LogOut
             </Button>
           </NavbarMenuItem>

@@ -2,10 +2,14 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Product from '../../Components/Product/Product'
 import LoadingScreen from '../../Components/LoadingScreen/LoadingScreen'
+import { useContext } from 'react';
+import { authContext } from '../../Contexts/AuthContext';
+
 export default function Home() {
 
    const [products , setProducts] = useState([])
    const [isLoading , setIsLoading] = useState(true)
+   const { isLoggedin } = useContext(authContext);
 
       useEffect(() => {
         getAllProducts()
@@ -28,7 +32,7 @@ export default function Home() {
        <div className="grid md:grid-cols-3 xl:grid-cols-4 gap-4 ">
        {
         products.map((product , index) => {
-         return <Product key={index} product={product}/>
+         return <Product key={index} product={product} isLoggedin={isLoggedin}/>
          })
        }
        </div>
