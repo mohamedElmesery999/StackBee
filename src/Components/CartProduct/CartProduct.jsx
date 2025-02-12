@@ -1,8 +1,26 @@
-import React from 'react'
+import React, {useEffect , useState } from 'react'
 
-export default function CartProduct({product , removeCartProduct , updateProductCounter}) {
+export default function CartProduct({product , removeCartProduct , updateProductCounter , loadingIncrement , loadingDecrement}) {
+
+    // M. this state for user can write in inputText instead of increase one by one
+    const[productCount , setProductount] = useState(product.count) 
+
+    useEffect(() => {
+        setProductount(product.count)
+    }, [product.count])
+
+    function decrement(){
+        setProductount(productCount - 1 ) ;
+        updateProductCounter(product.product._id, productCount - 1, "decrement" , productCount)
+    }
+
+    function increment(){
+        setProductount(productCount + 1 ) ;
+        updateProductCounter(product.product._id, productCount + 1, "increment" , productCount)
+    }
 
 
+ 
   return (
     <div
     className="flex flex-col relative min-[500px]:flex-row min-[500px]:items-center gap-5 py-6  border-b border-gray-200 group">
@@ -20,35 +38,52 @@ export default function CartProduct({product , removeCartProduct , updateProduct
         </div>
         <div className="flex items-center max-[500px]:justify-center h-full max-md:mt-3">
             <div className="flex items-center h-full">
-                <button disabled={product.count == 1} onClick={() => updateProductCounter(product.product._id , product.count - 1)}
-                    className="group rounded-l-xl px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300">
-                    <svg  className="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
-                        xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                        viewBox="0 0 22 22" fill="none">
-                        <path d="M16.5 11H5.5" stroke="" strokeWidth="1.6"
-                            strokeLinecap="round" />
-                        <path d="M16.5 11H5.5" stroke="" strokeOpacity="0.2" strokeWidth="1.6"
-                            strokeLinecap="round" />
-                        <path d="M16.5 11H5.5" stroke="" strokeOpacity="0.2" strokeWidth="1.6"
-                            strokeLinecap="round" />
+            <button disabled={product.count === 1 || loadingDecrement[product.product._id]} 
+                onClick={decrement}
+                className="group rounded-l-xl px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm 
+                    transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300"
+                >
+                {loadingDecrement[product.product._id] ? (
+                    <i className="fa fa-spinner fa-spin text-gray-900 text-xl"></i> 
+                ) : (
+                    <svg  
+                    className="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="22" height="22"
+                    viewBox="0 0 22 22" 
+                    fill="none"
+                    >
+                    <path d="M16.5 11H5.5" stroke="black" strokeWidth="1.6" strokeLinecap="round" />
                     </svg>
-                </button>
-                <input value={product.count} type="text"
+                )}
+            </button>
+
+                <input onBlur={() =>product.count != productCount && updateProductCounter(product.product._id ,productCount)} onChange={(e) => setProductount(e.target.value)} value={productCount} type="text"
                     className="border-y border-gray-200 outline-none text-gray-900 font-semibold text-lg w-full max-w-[73px] min-w-[60px] placeholder:text-gray-900 py-[15px]  text-center bg-transparent"
                     placeholder="1"/>
-                <button onClick={() => updateProductCounter(product.product._id , product.count + 1)}
-                    className="group rounded-r-xl px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm shadow-transparent transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300">
-                    <svg  className="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
-                        xmlns="http://www.w3.org/2000/svg" width="22" height="22"
-                        viewBox="0 0 22 22" fill="none">
-                        <path d="M11 5.5V16.5M16.5 11H5.5" stroke="" strokeWidth="1.6"
-                            strokeLinecap="round" />
-                        <path d="M11 5.5V16.5M16.5 11H5.5" stroke="" strokeOpacity="0.2"
-                            strokeWidth="1.6" strokeLinecap="round" />
-                        <path d="M11 5.5V16.5M16.5 11H5.5" stroke="" strokeOpacity="0.2"
-                            strokeWidth="1.6" strokeLinecap="round" />
+  
+            <button disabled={loadingIncrement[product.product._id]} 
+                onClick={increment}
+                className="group rounded-r-xl px-5 py-[18px] border border-gray-200 flex items-center justify-center shadow-sm 
+                    transition-all duration-500 hover:bg-gray-50 hover:border-gray-300 hover:shadow-gray-300 focus-within:outline-gray-300"
+                >
+                {loadingIncrement[product.product._id] ? (
+                    <i className="fa fa-spinner fa-spin text-gray-900 text-xl"></i> 
+                ) : (
+                    <svg  
+                    className="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    width="22" height="22"
+                    viewBox="0 0 22 22" 
+                    fill="none"
+                    >
+                    <path d="M11 5.5V16.5M16.5 11H5.5" stroke="black" strokeWidth="1.6" strokeLinecap="round" />
                     </svg>
-                </button>
+                )}
+            </button>
+
+
+
             </div>
         </div>
         <div className="flex items-center max-[500px]:justify-center md:justify-end max-md:mt-3 h-full">

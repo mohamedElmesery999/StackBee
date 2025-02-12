@@ -10,6 +10,9 @@ export default function Cart() {
   const[cartId , setCartId] =  useState(null)
   const[cartdata , setCartData] =  useState(null)
   const[numOfCartItems , setNumOfCartItems] =  useState(0)
+  const [loadingIncrement, setLoadingIncrement] = useState({});
+  const [loadingDecrement, setLoadingDecrement] = useState({});
+
 
   useEffect(() => {
     getLoggedUserCart()
@@ -73,18 +76,40 @@ export default function Cart() {
       });
   }
 
-   function updateProductCounter(productId , count) {
-    axios.put(`https://ecommerce.routemisr.com/api/v1/cart/${productId}` ,{
-        count
-    }, {
-        headers :{
-            token : localStorage.getItem("token")
-        }
-    }).then(({data}) => {
-    setCartData(data.data);
-    setNumOfCartItems(data.numOfCartItems); 
+
+  function updateProductCounter(productId, count ,action) {
+    if (action === "increment") {
+      setLoadingIncrement((prev) => ({ ...prev, [productId]: true }));
+    } else {
+      setLoadingDecrement((prev) => ({ ...prev, [productId]: true }));
+    }  
+
+    axios.put(
+      `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
+      { count },
+      {
+        headers: {
+          token: localStorage.getItem("token"),
+        },
+      }
+    )
+    .then(({ data }) => {
+      setCartData(data.data);
+      setNumOfCartItems(data.numOfCartItems);
     })
-}
+    .catch((error) => {
+      console.error("Error updating cart:", error);
+    })
+    .finally(() => {
+     if (action === "increment") {
+          setLoadingIncrement((prev) => ({ ...prev, [productId]: false }));
+        } else {
+          setLoadingDecrement((prev) => ({ ...prev, [productId]: false }));
+      }
+    });
+  }
+  
+
 
   if (numOfCartItems === 0) {
     return (
@@ -143,7 +168,7 @@ export default function Cart() {
 
                           {
                             cartdata?.products.map((product , index) =>{
-                            return <CartProduct key={index} product={product} removeCartProduct={removeCartProduct} updateProductCounter={updateProductCounter} />
+                            return <CartProduct key={index} product={product} removeCartProduct={removeCartProduct} updateProductCounter={updateProductCounter} loadingDecrement={loadingDecrement} loadingIncrement={loadingIncrement} />
                             })
                           }
 
