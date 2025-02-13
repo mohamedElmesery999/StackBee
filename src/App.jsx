@@ -13,6 +13,8 @@ import AuthContextProvider from "./Contexts/AuthContext"
 import ProtectedAuthRoute from "./Auth/ProtectedAuthRoute"
 import ProductDetails from "./Pages/ProductDetails/ProductDetails"
 import { ToastContainer } from 'react-toastify';
+import FormCheck from "./Pages/FormCheck/FormCheck"
+import Orders from "./Pages/Orders/Orders"
 
 
 
@@ -26,6 +28,8 @@ const router = createBrowserRouter([
       { path: "categories", element: <ProtectedRoute><Categories /></ProtectedRoute> },
       { path: "brands", element: <ProtectedRoute><Brands /></ProtectedRoute> },
       { path: "cart", element: <ProtectedRoute><Cart /></ProtectedRoute> },
+      { path: "allorders", element: <ProtectedRoute><Orders /></ProtectedRoute> },
+      { path: "formcheck/:cartId", element: <ProtectedRoute><FormCheck /></ProtectedRoute> },
       { path: "product/:id", element: <ProtectedRoute><ProductDetails /></ProtectedRoute> }, 
       { path: "*", element: <Notfound /> },
     ]

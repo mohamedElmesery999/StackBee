@@ -6,6 +6,7 @@ export const authContext = createContext();
 export default function AuthContextProvider({ children }) {
     const [isLoggedin, setIsLoggedin] = useState(false);
     const [isLoading, setIsLoading] = useState(true); // Loading only on first render
+    const [userId , setUserID] = useState("");
 
     useEffect(() => {
         VerifyUserToken();              //M. Run immediately when open project
@@ -31,7 +32,8 @@ export default function AuthContextProvider({ children }) {
         axios.get("https://ecommerce.routemisr.com/api/v1/auth/verifyToken", {
             headers: { token }
         })
-        .then(() => {
+        .then((res) => {
+            setUserID(res.data.decoded.id)
             setIsLoggedin(true);
         })
         .catch(() => {
@@ -44,7 +46,7 @@ export default function AuthContextProvider({ children }) {
     }
 
     return (
-        <authContext.Provider value={{ isLoggedin, setIsLoggedin, isLoading }}>
+        <authContext.Provider value={{ isLoggedin, setIsLoggedin, isLoading , userId}}>
             {children}
         </authContext.Provider>
     );

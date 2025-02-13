@@ -13,7 +13,7 @@ export default function Login() {
   const[errMsg , setErrMessg] = useState()
   const[isLoading , setIsLoading] = useState(false)
   const initialValues = {
-   email: "mohamedelmesery18@gmail.com", password: "Mo@12345"
+   email: "TasneemElmesery18@gmail.com", password: "Mo@12345"
   };
 
    const {setIsLoggedin} = useContext(authContext)
@@ -24,7 +24,7 @@ export default function Login() {
     axios.post("https://ecommerce.routemisr.com/api/v1/auth/signin", values)
     .then((res) =>{
       console.log(res);
-      if(res.data.message == "success"){
+      if(res.data.message == "success"){ 
         localStorage.setItem("token" , res.data.token) 
         setIsLoggedin(true)
         navigate(location.pathname == "/login" ? "/" : location.pathname)
