@@ -10,8 +10,7 @@ export default function Cart() {
   const[cartId , setCartId] =  useState(null)
   const[cartdata , setCartData] =  useState(null)
   const[numOfCartItems , setNumOfCartItems] =  useState(0)
-  const [loadingIncrement, setLoadingIncrement] = useState({});
-  const [loadingDecrement, setLoadingDecrement] = useState({});
+ 
 
 
   useEffect(() => {
@@ -77,12 +76,8 @@ export default function Cart() {
   }
 
 
-  function updateProductCounter(productId, count ,action) {
-    if (action === "increment") {
-      setLoadingIncrement((prev) => ({ ...prev, [productId]: true }));
-    } else {
-      setLoadingDecrement((prev) => ({ ...prev, [productId]: true }));
-    }  
+  function updateProductCounter(productId, count ) {
+   
 
     axios.put(
       `https://ecommerce.routemisr.com/api/v1/cart/${productId}`,
@@ -101,15 +96,9 @@ export default function Cart() {
       console.error("Error updating cart:", error);
     })
     .finally(() => {
-     if (action === "increment") {
-          setLoadingIncrement((prev) => ({ ...prev, [productId]: false }));
-        } else {
-          setLoadingDecrement((prev) => ({ ...prev, [productId]: false }));
-      }
+    
     });
   }
-  
-
 
   if (numOfCartItems === 0) {
     return (
@@ -134,7 +123,8 @@ export default function Cart() {
       </div>
     );
   }
-  
+
+
 
   return (
     <section
@@ -168,7 +158,7 @@ export default function Cart() {
 
                           {
                             cartdata?.products.map((product , index) =>{
-                            return <CartProduct key={index} product={product} removeCartProduct={removeCartProduct} updateProductCounter={updateProductCounter} loadingDecrement={loadingDecrement} loadingIncrement={loadingIncrement} />
+                            return <CartProduct key={index} product={product} removeCartProduct={removeCartProduct} updateProductCounter={updateProductCounter}/>
                             })
                           }
 
@@ -212,8 +202,8 @@ export default function Cart() {
                             <p className="font-medium text-xl leading-8 text-black">Total Price </p>
                             <p className="font-semibold text-xl leading-8 text-red-600">EGP {cartdata?.totalCartPrice}</p>
                         </div>
-                        <button
-                            className="w-full text-center bg-indigo-600 rounded-xl py-3 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-indigo-700 mb-8">Checkout</button>
+                        <Link to={"/formcheck/" + cartId} onPress={() => checkOut(cartId)}
+                            className="w-full block text-center bg-indigo-600 rounded-xl py-3 px-6 font-semibold text-lg text-white transition-all duration-500 hover:bg-indigo-700 mb-8">Checkout</Link>
                     </div>
 
                 </div>
