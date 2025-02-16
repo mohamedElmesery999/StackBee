@@ -4,12 +4,15 @@ import CartProduct from '../../Components/CartProduct/CartProduct'
 import { toast } from 'react-toastify';
 import { Bounce } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import LoadingScreen from '../../Components/LoadingScreen/LoadingScreen'
+
 
 export default function Cart() {
 
   const[cartId , setCartId] =  useState(null)
   const[cartdata , setCartData] =  useState(null)
   const[numOfCartItems , setNumOfCartItems] =  useState(0)
+  const [isLoading , setIsLoading] = useState(true)
  
 
 
@@ -18,7 +21,7 @@ export default function Cart() {
   }, [])
   
   async function getLoggedUserCart(){
-
+    setIsLoading(true)
       const {data} = await axios.get("https://ecommerce.routemisr.com/api/v1/cart" , {
         headers:{
           token: localStorage.getItem("token")
@@ -26,7 +29,8 @@ export default function Cart() {
       } )
       setCartId(data.cartId);
       setCartData(data.data);
-      setNumOfCartItems(data.numOfCartItems);    
+      setNumOfCartItems(data.numOfCartItems);  
+      setIsLoading(false)  
   }
 
   async function removeCartProduct(productId) {
@@ -124,6 +128,9 @@ export default function Cart() {
     );
   }
 
+  if(isLoading){
+    return <LoadingScreen/>
+  }
 
 
   return (
@@ -169,16 +176,6 @@ export default function Cart() {
                         className="flex items-center px-5 py-3 rounded-full gap-2 border-none outline-0 group font-semibold text-lg leading-8 text-red-500 shadow-sm shadow-transparent transition-all duration-500 hover:text-red-700">
                         Clear Cart  
                     </button>
-                    <button
-                        className="flex items-center px-5 py-3 rounded-full gap-2 border-none outline-0 group font-semibold text-lg leading-8 text-indigo-600 shadow-sm shadow-transparent transition-all duration-500 hover:text-indigo-700">
-                        Add Coupon Code
-                        <svg className="transition-all duration-500 group-hover:translate-x-2" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 22 22"
-                            fill="none">
-                            <path
-                                d="M12.7757 5.5L18.3319 11.0562M18.3319 11.0562L12.7757 16.6125M18.3319 11.0562L1.83203 11.0562"
-                                stroke="#4F46E5" strokeWidth="1.6" strokeLinecap="round" />
-                        </svg>
-                    </button>
                 </div>
             </div>
 
@@ -195,8 +192,7 @@ export default function Cart() {
 
                     <div>
                         <div className="flex items-center border-b border-gray-200">
-                            <button
-                                className="rounded-lg w-full bg-black py-2.5 px-4 text-white text-sm font-semibold text-center mb-8 transition-all duration-500 hover:bg-black/80">Apply</button>
+                           
                         </div>
                         <div className="flex items-center justify-between py-8">
                             <p className="font-medium text-xl leading-8 text-black">Total Price </p>

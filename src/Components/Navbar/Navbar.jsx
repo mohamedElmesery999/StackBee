@@ -37,7 +37,7 @@ export default function Navbar() {
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onPress={() => setIsMenuOpen(!isMenuOpen)}
         />
         <Link to="/">
           <NavbarBrand>

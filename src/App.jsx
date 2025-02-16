@@ -15,8 +15,10 @@ import ProductDetails from "./Pages/ProductDetails/ProductDetails"
 import { ToastContainer } from 'react-toastify';
 import FormCheck from "./Pages/FormCheck/FormCheck"
 import Orders from "./Pages/Orders/Orders"
+import {QueryClient , QueryClientProvider} from "@tanstack/react-query"
 
-
+// take instance from queryclient
+const queryClient = new QueryClient()
 
 const router = createBrowserRouter([
   {
@@ -39,12 +41,14 @@ const router = createBrowserRouter([
 export default function App() {
   return (
   <>
+     <QueryClientProvider client={queryClient}>
       <AuthContextProvider>  
           <HeroUIProvider>
             <RouterProvider router={router}></RouterProvider>
             <ToastContainer/>
           </HeroUIProvider>
       </AuthContextProvider>
+      </QueryClientProvider>
   </>
   )
 }
