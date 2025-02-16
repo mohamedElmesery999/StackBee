@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { authContext } from '../../Contexts/AuthContext';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 export default function Orders() {
   const { userId } = useContext(authContext);
@@ -19,21 +20,57 @@ export default function Orders() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
-      <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Your Orders</h2>
-      {orders.length > 0 ? (
-        orders.map((order) => (
-          <div key={order._id} className="border-b border-gray-300 py-4">
-            <h3 className="text-lg font-medium text-gray-800">Order ID: {order._id}</h3>
-            <h3 className="text-lg font-medium text-gray-800">Name: {order.name}</h3>
-            <img type={order.image}/>
-            <p className="text-gray-600">Total Price: <span className="font-semibold">EGP {order.totalPrice}</span></p>
-            <p className="text-gray-600">Status: <span className="text-green-600">{order.status}</span></p>
+    <div className="space-y-4">
+    {orders.slice().reverse().map((order, index) => (     //M. Reverse the order of orders
+      <div key={index} className="p-4 border rounded-lg">
+        {/* Order Header */}
+        <div className="mb-4 pb-2 border-b">
+          <h3 className="font-bold">Order ID: {order._id}</h3>
+          <p>Total Price: EGP {order.totalOrderPrice.toFixed(2)}</p>
+        </div>
+  
+        {order.cartItems.map((item, index) => (
+          <div key={index} className="flex gap-4 p-2 mb-2 bg-gray-50 rounded">
+            <img
+              src={item.product.imageCover}
+              alt={item.product.title}
+              className="w-20 h-20 object-cover rounded"
+            />
+  
+            <div className="flex-1">
+              <h4 className="font-semibold">{item.product.title}</h4>
+  
+              <div className="text-sm text-gray-600">
+                <p>Price: EGP {item.price.toFixed(2)}</p>
+                <p>Quantity: {item.count}</p>
+                <p className="font-medium">
+                  Total: EGP {(item.price * item.count).toFixed(2)}
+                </p>
+              </div>
+  
+              <div className="mt-2 text-sm text-gray-500">
+                <span>Brand: {item.product.brand?.name}</span>
+                <span className="mx-2">|</span>
+                <span>Category: {item.product.category?.name}</span>
+              </div>
+            </div>
           </div>
-        ))
-      ) : (
-        <p className="text-center text-gray-500">No orders found.</p>
-      )}
+        ))}
+  
+        <div className="mt-4 pt-2 border-t">
+          <p>Shipping Address: {order.shippingAddress.details}</p>
+          <p>City: {order.shippingAddress.city}</p>
+          <p>Phone: {order.shippingAddress.phone}</p>
+        </div>
+      </div>
+    ))}
+  
+    <div>
+      <Link to={"/"}className="mt-3 px-6 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600 transition duration-300">
+        Back to Home
+      </Link>
     </div>
-  );
-}
+  </div>
+  )
+  }
+
