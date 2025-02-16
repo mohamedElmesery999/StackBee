@@ -2,7 +2,7 @@ import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaCcVisa, FaCcMastercar
 
 export default function Footer() {
   return (
-    <div>
+    <div className="mt-auto">
       <footer className="bg-emerald-800 text-white pt-12">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
@@ -61,7 +61,7 @@ export default function Footer() {
           </div>
           <div className="border-t border-emerald-700 mt-8 py-6">
             <div className="text-center text-gray-300">
-              <p>© 2025 Fresh Cart. All rights reserved.</p>
+              <p>© 2025 StackBee. All rights reserved.</p>
               <p className="mt-2 text-xl">Designed and developed by M.Elmesery</p>
             </div>
           </div>

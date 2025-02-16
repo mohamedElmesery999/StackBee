@@ -1,30 +1,39 @@
-import React, { useContext } from 'react'; 
+import React, { useContext, useState } from 'react'; 
 import { Navbar as NavbarHeroUi, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button, Image } from "@heroui/react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { authContext } from '../../Contexts/AuthContext';
+import { AiFillHome, AiOutlineAppstore, AiOutlineTag, AiOutlineShoppingCart } from "react-icons/ai"; // Import icons
 import Logo from '../../assets/logo.PNG';
 
 export default function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
-  const menuItems = ["Home", "Categories", "Brands", "Cart"];
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation(); // Get current path
   const { isLoggedin, setIsLoggedin } = useContext(authContext);
+
+  // Menu items with icons
+  const menuItems = [
+    { name: "Home", icon: <AiFillHome size={20} />, path: "/" },
+    { name: "Categories", icon: <AiOutlineAppstore size={20} />, path: "/categories" },
+    { name: "Brands", icon: <AiOutlineTag size={20} />, path: "/brands" },
+    { name: "Cart", icon: <AiOutlineShoppingCart size={20} />, path: "/cart" },
+  ];
 
   function logout() {
     localStorage.removeItem("token");
     setIsLoggedin(false);
     navigate("/login");
-    setIsMenuOpen(false); // Close menu after logout
+    setIsMenuOpen(false);
   }
 
   return (
     <NavbarHeroUi 
       shouldHideOnScroll 
+      isMenuOpen={isMenuOpen} 
       onMenuOpenChange={setIsMenuOpen}
-      isMenuOpen={isMenuOpen} // Ensure menu state is controlled
     >
       <NavbarContent>
-        {/* Toggle button to open/close menu */}
+        {/* Toggle button for mobile menu */}
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           className="sm:hidden"
@@ -37,16 +46,22 @@ export default function Navbar() {
         </Link>
       </NavbarContent>
 
-      {/* Desktop Menu */}
-      {isLoggedin && (
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
-          {menuItems.map((item, index) => (
-            <NavbarItem key={index}>
-              <Link to={item === "Home" ? "/" : "/" + item}>{item}</Link>
+      {/* Desktop Menu with Icons and Green Selection */}
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        {isLoggedin &&
+          menuItems.map((item, index) => (
+            <NavbarItem key={index} className="flex items-center gap-2">
+              <Link
+                to={item.path}
+                className={`flex items-center gap-2 px-3 py-2 rounded-md transition-all ${
+                  location.pathname === item.path ? "text-green-500 font-bold" : "text-gray-700"
+                } hover:text-green-600`}
+              >
+                {item.icon} {item.name}
+              </Link>
             </NavbarItem>
           ))}
-        </NavbarContent>
-      )}
+      </NavbarContent>
 
       {/* Right Side (Login/Logout) */}
       <NavbarContent justify="end">
@@ -70,19 +85,24 @@ export default function Navbar() {
         )}
       </NavbarContent>
 
-      {/* Mobile Menu */}
-      {isLoggedin && (
-        <NavbarMenu>
-          {menuItems.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
+      {/* Mobile Menu with Green Selection */}
+      <NavbarMenu>
+        {isLoggedin &&
+          menuItems.map((item, index) => (
+            <NavbarMenuItem key={index}>
               <Link 
-                to={item === "Home" ? "/" : "/" + item} 
-                onClick={() => setIsMenuOpen(false)} // Close menu on item click
+                to={item.path} 
+                onClick={() => setIsMenuOpen(false)}
+                className={`flex items-center gap-2 px-3 py-2 rounded-md transition-all ${
+                  location.pathname === item.path ? "text-green-500 font-bold" : "text-gray-700"
+                } hover:text-green-600`}
               >
-                {item}
+                {item.icon}
+                {item.name}
               </Link>
             </NavbarMenuItem>
           ))}
+        {isLoggedin && (
           <NavbarMenuItem>
             <Button 
               onPress={logout} 
@@ -93,8 +113,8 @@ export default function Navbar() {
               LogOut
             </Button>
           </NavbarMenuItem>
-        </NavbarMenu>
-      )}
+        )}
+      </NavbarMenu>
     </NavbarHeroUi>
   );
 }
