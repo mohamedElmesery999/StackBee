@@ -49,9 +49,6 @@ const { handleSubmit, values, handleChange, errors, handleBlur, touched } = useF
     onSubmit ,
     validationSchema
   });
-
-
-
 return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">Shipping Details</h2>
