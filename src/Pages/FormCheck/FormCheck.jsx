@@ -22,7 +22,7 @@ export default function FormCheck() {
        token : localStorage.getItem("token")
      }, 
      params : {
-       url : "https://stack-bee.vercel.app/"
+       url : "http://localhost:5173"
      }
     }).then(({data}) => {
      location.href = data.session.url;
