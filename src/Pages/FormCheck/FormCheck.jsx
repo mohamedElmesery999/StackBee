@@ -22,8 +22,8 @@ export default function FormCheck() {
        token : localStorage.getItem("token")
      }, 
      params : {
-       url : "http://localhost:5175"
-     }
+        url : "http://localhost:5173"
+    }
     }).then(({data}) => {
      location.href = data.session.url;
     }).finally(() => {
